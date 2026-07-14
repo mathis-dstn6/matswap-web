@@ -27,11 +27,48 @@
 </head>
 <body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col md:flex-row">
 
+<!-- ============ MODAL NOTICE ============ -->
+<div id="modal-notice" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+  <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 md:p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl relative">
+    <button id="close-notice" class="absolute top-4 right-5 text-slate-400 hover:text-red-400 text-3xl transition">&times;</button>
+    <h2 class="text-2xl font-bold font-display text-teal-400 mb-6">📖 Guide d'utilisation MatSwap</h2>
+    
+    <div class="space-y-6 text-sm text-slate-300">
+      <div class="bg-slate-900/50 p-4 rounded-xl border border-slate-700">
+        <h3 class="text-white font-bold text-base mb-2">🔄 Onglet "Substitution"</h3>
+        <p class="mb-2">Cherchez une alternative plus verte ou moins chère à un matériau existant.</p>
+        <ul class="list-disc pl-5 space-y-1 text-slate-400">
+          <li><strong class="text-slate-300">Tolérances :</strong> Définissez la baisse maximale de performance acceptable.</li>
+          <li><strong class="text-slate-300">Simulation pièce :</strong> Indiquez le poids actuel de votre pièce. Le système calculera le nouveau poids selon la densité de l'alternative.</li>
+        </ul>
+      </div>
+
+      <div class="bg-slate-900/50 p-4 rounded-xl border border-slate-700">
+        <h3 class="text-white font-bold text-base mb-2">📐 Onglet "Étude & Cahier des Charges"</h3>
+        <p class="mb-2">Filtrez l'ensemble de la base de données selon des seuils stricts.</p>
+        <ul class="list-disc pl-5 space-y-1 text-slate-400">
+          <li><strong class="text-slate-300">Indice d'Ashby :</strong> Permet d'optimiser la masse. <i>Traction</i> privilégie le ratio Résistance/Poids. <i>Flexion</i> privilégie la résistance à la flexion au poids.</li>
+        </ul>
+      </div>
+
+      <div class="bg-slate-900/50 p-4 rounded-xl border border-slate-700 border-l-4 border-l-blue-500">
+        <h3 class="text-white font-bold text-base mb-2">🧮 Comment est calculé le Score Éco ?</h3>
+        <p>C'est un indicateur sur 100 exclusif à MatSwap. Il est calculé en valorisant le taux de recyclabilité d'un alliage, tout en pénalisant fortement son empreinte carbone brute (kg CO₂ / kg). Plus le score est proche de 100, plus le matériau s'inscrit dans une démarche d'éco-conception.</p>
+      </div>
+    </div>
+  </div>
+</div>
+ 
 <!-- ============ SIDEBAR ============ -->
 <aside class="w-full md:w-80 bg-slate-800 border-b md:border-b-0 md:border-r border-slate-700 p-6 flex flex-col justify-between md:h-screen md:sticky md:top-0 shrink-0">
   <div class="space-y-8 overflow-y-auto">
-    <div class="font-display text-2xl font-extrabold text-gradient">🔄 MatSwap</div>
-
+    <div>
+      <div class="font-display text-2xl font-extrabold text-gradient">🔄 MatSwap</div>
+      <button id="btn-notice" class="mt-4 w-full flex items-center justify-center gap-2 bg-slate-900 hover:bg-slate-700 border border-slate-600 text-teal-400 font-semibold text-sm py-2.5 rounded-lg transition shadow-lg">
+        📖 Guide d'utilisation
+      </button>
+    </div>
+ 
     <div>
       <h2 class="text-sm font-semibold text-slate-400 mb-3 uppercase tracking-wide">⚙️ Configuration</h2>
       <label class="block text-xs font-semibold text-slate-400 mb-1">Filtrer par famille</label>
@@ -39,7 +76,7 @@
         <option>Chargement...</option>
       </select>
     </div>
-
+ 
     <div>
       <h2 class="text-sm font-semibold text-slate-400 mb-3 uppercase tracking-wide">🎯 Stratégie d'optimisation</h2>
       <div class="space-y-2 text-sm">
@@ -54,13 +91,13 @@
       </div>
     </div>
   </div>
-
+ 
   <div class="border-t border-slate-700 pt-4 flex items-center justify-between text-sm mt-8">
     <span class="text-slate-400 truncate">mathis@phelma.fr</span>
     <button class="text-red-400 hover:underline shrink-0">Déconnexion</button>
   </div>
 </aside>
-
+ 
 <!-- ============ MAIN ============ -->
 <main class="flex-1 p-6 md:p-10 space-y-6 overflow-y-auto">
   <div class="flex flex-wrap justify-between items-center gap-4">
@@ -75,15 +112,15 @@
       <input type="file" id="csv-file" accept=".csv" class="hidden">
     </div>
   </div>
-
+ 
   <div id="status-banner" class="hidden rounded-lg p-3 text-sm border"></div>
-
+ 
   <!-- TABS -->
   <div class="border-b border-slate-700 flex gap-6 text-sm font-semibold">
     <button data-tab="tab1" class="tab-btn active px-1 py-3 border-b-2 transition">🔄 Substitution (Top 3 Scénarios)</button>
     <button data-tab="tab2" class="tab-btn px-1 py-3 border-b-2 transition">📐 Étude &amp; Cahier des Charges</button>
   </div>
-
+ 
   <!-- ===================== TAB 1 ===================== -->
   <section id="tab1" class="space-y-6">
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 bg-slate-800 border border-slate-700 rounded-xl p-6">
@@ -112,9 +149,9 @@
         </div>
       </div>
     </div>
-
+ 
     <div class="bg-slate-800 border border-slate-700 rounded-xl p-6">
-      <p class="text-sm font-semibold mb-3">📦 Simulation sur pièce réelle (optionnelle)</p>
+      <p class="text-sm font-semibold mb-3 flex items-center">📦 Simulation sur pièce réelle (optionnelle) <span title="MatSwap utilise le ratio de densité pour prédire le poids exact de la nouvelle pièce." class="cursor-help inline-flex items-center justify-center w-[16px] h-[16px] rounded-full bg-slate-700 text-slate-300 text-[10px] font-bold ml-1 hover:bg-teal-500 hover:text-slate-900 transition-colors">?</span></p>
       <div class="flex flex-wrap items-center gap-4">
         <label class="flex items-center gap-2 text-sm cursor-pointer"><input type="checkbox" id="simuler-piece"> Activer le calcul d'impact pour une pièce spécifique</label>
         <div id="poids-piece-wrap" class="hidden flex items-center gap-2">
@@ -123,23 +160,23 @@
         </div>
       </div>
     </div>
-
+ 
     <div>
       <h3 class="text-lg font-bold mb-3">📊 Profil actuel : <span id="ref-name-label" class="text-teal-400"></span></h3>
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div class="bg-slate-800 border border-slate-700 rounded-xl p-4"><p class="text-xs text-slate-400">Score Éco</p><p id="m-score" class="text-2xl font-bold mt-1">-</p></div>
+        <div class="bg-slate-800 border border-slate-700 rounded-xl p-4"><p class="text-xs text-slate-400 flex items-center">Score Éco <span title="Note sur 100 calculée selon l'empreinte CO2 et le taux de recyclabilité." class="cursor-help inline-flex items-center justify-center w-[16px] h-[16px] rounded-full bg-slate-700 text-slate-300 text-[10px] font-bold ml-1 hover:bg-teal-500 hover:text-slate-900 transition-colors">?</span></p><p id="m-score" class="text-2xl font-bold mt-1">-</p></div>
         <div class="bg-slate-800 border border-slate-700 rounded-xl p-4"><p class="text-xs text-slate-400">Dureté Rockwell</p><p id="m-durete" class="text-2xl font-bold mt-1">-</p></div>
         <div class="bg-slate-800 border border-slate-700 rounded-xl p-4"><p id="m-co2-label" class="text-xs text-slate-400">CO₂</p><p id="m-co2" class="text-2xl font-bold mt-1">-</p></div>
         <div class="bg-slate-800 border border-slate-700 rounded-xl p-4"><p id="m-prix-label" class="text-xs text-slate-400">Prix</p><p id="m-prix" class="text-2xl font-bold mt-1">-</p></div>
       </div>
     </div>
-
+ 
     <div id="tab1-alt-zone">
       <div id="tab1-empty" class="hidden bg-blue-500/10 border border-blue-500 text-blue-300 rounded-lg p-4 text-sm">Aucune alternative trouvée. Essayez d'élargir les tolérances.</div>
       <div id="tab1-results">
         <div class="bg-green-500/10 border border-green-500 text-green-300 rounded-lg p-3 text-sm mb-4">🎉 Les meilleures alternatives recommandées</div>
         <div id="alt-cards" class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6"></div>
-
+ 
         <h3 class="text-lg font-bold mb-3">📊 Analyses graphiques avancées</h3>
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div class="bg-slate-800 border border-slate-700 rounded-xl p-4">
@@ -158,7 +195,7 @@
             <div id="ashby1" class="h-[380px]"></div>
           </div>
         </div>
-
+ 
         <div class="flex flex-wrap gap-4 mt-6">
           <button id="btn-pdf-1" class="bg-blue-600 hover:bg-blue-500 text-white font-semibold px-4 py-2.5 rounded-lg text-sm">📄 Exporter le rapport d'audit (PDF)</button>
           <button id="btn-csv-1" class="bg-slate-700 hover:bg-slate-600 text-white font-semibold px-4 py-2.5 rounded-lg text-sm">📊 Exporter le Top 3 (CSV)</button>
@@ -166,13 +203,13 @@
       </div>
     </div>
   </section>
-
+ 
   <!-- ===================== TAB 2 ===================== -->
   <section id="tab2" class="space-y-6 hidden">
     <h2 class="text-xl font-bold font-display">Étude de faisabilité &amp; cahier des charges</h2>
-
+ 
     <div class="bg-slate-800 border border-slate-700 rounded-xl p-6">
-      <label class="block text-xs font-semibold text-slate-400 mb-1">Indice d'Ashby</label>
+      <label class="flex items-center text-xs font-semibold text-slate-400 mb-1">Indice d'Ashby <span title="Traction : Max Re / ρ  |  Flexion : Max √Re / ρ. Permet de trouver le matériau le plus léger pour une contrainte donnée." class="cursor-help inline-flex items-center justify-center w-[16px] h-[16px] rounded-full bg-slate-700 text-slate-300 text-[10px] font-bold ml-1 hover:bg-teal-500 hover:text-slate-900 transition-colors">?</span></label>
       <select id="indice-select" class="w-full md:w-96 bg-slate-900 border border-slate-600 rounded-lg p-2.5 text-sm mb-4">
         <option value="aucun">Aucun - Tri standard</option>
         <option value="traction">Traction pure (Max Re / ρ)</option>
@@ -180,9 +217,9 @@
       </select>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 text-xs" id="etude-sliders"></div>
     </div>
-
+ 
     <h3 id="etude-count" class="text-lg font-bold">📊 0 matériau(x) valide(s)</h3>
-
+ 
     <div id="tab2-results">
       <h3 class="text-lg font-bold mb-3">📊 Analyses graphiques du cahier des charges</h3>
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -202,12 +239,12 @@
           <div id="ashby2" class="h-[380px]"></div>
         </div>
       </div>
-
+ 
       <div class="flex flex-wrap gap-4 my-6">
         <button id="btn-pdf-2" class="bg-blue-600 hover:bg-blue-500 text-white font-semibold px-4 py-2.5 rounded-lg text-sm">📄 Télécharger l'étude de faisabilité (PDF)</button>
         <button id="btn-csv-2" class="bg-slate-700 hover:bg-slate-600 text-white font-semibold px-4 py-2.5 rounded-lg text-sm">📊 Exporter les données brutes (CSV)</button>
       </div>
-
+ 
       <div class="bg-slate-800 border border-slate-700 rounded-xl p-4 overflow-x-auto">
         <table class="data-table w-full text-xs text-left">
           <thead id="etude-table-head"></thead>
@@ -218,7 +255,7 @@
     <div id="tab2-empty" class="hidden bg-blue-500/10 border border-blue-500 text-blue-300 rounded-lg p-4 text-sm">Aucun matériau ne correspond aux critères. Essayez d'élargir vos plages.</div>
   </section>
 </main>
-
+ 
 <script>
 // ============================================================
 // 0. CONSTANTES / MAPPING D'AFFICHAGE
@@ -232,12 +269,12 @@ const DISPLAY_MAP = {
 };
 const COLORS = ['#2563EB', '#10B981', '#8B5CF6'];
 const RADAR_CATS = ['Résistance (Re)', 'Rigidité (E)', 'Éco-Score', 'Légèreté (Inv. ρ)', 'Économie (Inv. €)'];
-
+ 
 // ============================================================
 // 1. STATUT / UTILITAIRES
 // ============================================================
 window.addEventListener('error', e => afficherStatut('💥 Erreur JS : ' + e.message, 'error'));
-
+ 
 function afficherStatut(message, type = 'error') {
   const banner = document.getElementById('status-banner');
   if (!banner) return;
@@ -248,7 +285,7 @@ function afficherStatut(message, type = 'error') {
 function cacherStatut() { const b = document.getElementById('status-banner'); if (b) b.classList.add('hidden'); }
 function fmt(n, d = 1) { return Number.isFinite(n) ? n.toFixed(d) : '-'; }
 function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
-
+ 
 function downloadBlob(content, filename, mime) {
   const blob = new Blob(['\uFEFF' + content], { type: mime });
   const url = URL.createObjectURL(blob);
@@ -256,7 +293,7 @@ function downloadBlob(content, filename, mime) {
   a.href = url; a.download = filename; a.click();
   URL.revokeObjectURL(url);
 }
-
+ 
 // ============================================================
 // 2. CARTOGRAPHIE DES COLONNES + CALCULS MÉTIER
 // ============================================================
@@ -279,7 +316,7 @@ const MATCHERS = [
   ['Recyclabilite_pct', c => c.includes('recycl')],
   ['Prix_euro_kg', c => c.includes('prix') || c.includes('euro') || c.includes('cout') || c.includes('coût')],
 ];
-
+ 
 function mapColumns(rows) {
   if (!rows || rows.length === 0) return [];
   const assigned = new Set();
@@ -316,7 +353,7 @@ function mapColumns(rows) {
     return out;
   });
 }
-
+ 
 function computeBounds(data) {
   const fields = ['Limite_Elastique_MPa', 'Module_Young_GPa', 'Score_Eco', 'Densite', 'Prix_euro_kg'];
   const b = {};
@@ -337,16 +374,16 @@ function radarProfile(row, bounds) {
     normMoins(row.Prix_euro_kg, bounds.Prix_euro_kg)
   ];
 }
-
+ 
 // ============================================================
 // 3. ÉTAT GLOBAL
 // ============================================================
 let DATA = [];
 let BOUNDS = {};
 let listenersBound = false;
-let tab1State = null; // { rowRef, top3, simulerPiece, poidsActuel }
-let tab2State = null; // { dfFiltre, criteres, indiceLabel }
-
+let tab1State = null;
+let tab2State = null;
+ 
 // ============================================================
 // 4. CHARGEMENT SUPABASE
 // ============================================================
@@ -359,16 +396,16 @@ function verifierLibrairies() {
   if (typeof window.jspdf === 'undefined') manquantes.push('jsPDF (cdnjs)');
   return manquantes;
 }
-
+ 
 async function chargerDonneesStandard() {
   try {
     const { data, error } = await supabaseClient.from('alliages_certifies').select('*');
     if (error) {
-      afficherStatut("❌ Erreur Supabase : " + error.message + " — vérifie que la table s'appelle bien 'alliages_certifies' et que le RLS est désactivé.", 'error');
+      afficherStatut("❌ Erreur Supabase : " + error.message, 'error');
       return;
     }
     if (!data || data.length === 0) {
-      afficherStatut("⚠️ Base connectée, mais aucune ligne trouvée dans la table 'alliages_certifies'.", 'error');
+      afficherStatut("⚠️ Base connectée, mais aucune ligne trouvée.", 'error');
       return;
     }
     cacherStatut();
@@ -377,7 +414,7 @@ async function chargerDonneesStandard() {
     afficherStatut('💥 Erreur d\'exécution du script : ' + err.message, 'error');
   }
 }
-
+ 
 document.getElementById('csv-file').addEventListener('change', function (input) {
   const file = input.target.files[0];
   if (!file) return;
@@ -389,11 +426,11 @@ document.getElementById('csv-file').addEventListener('change', function (input) 
     }
   });
 });
-
+ 
 (function init() {
   const manquantes = verifierLibrairies();
   if (manquantes.length > 0) {
-    afficherStatut('❌ Librairie(s) non chargée(s) : ' + manquantes.join(', ') + ' — vérifie ta connexion internet ou ton VPN/bloqueur de pub.', 'error');
+    afficherStatut('❌ Librairie(s) non chargée(s) : ' + manquantes.join(', '), 'error');
     return;
   }
   try {
@@ -405,7 +442,7 @@ document.getElementById('csv-file').addEventListener('change', function (input) 
     afficherStatut("💥 Erreur d'initialisation Supabase : " + err.message, 'error');
   }
 })();
-
+ 
 // ============================================================
 // 5. RENDU PRINCIPAL À LA RÉCEPTION DES DONNÉES
 // ============================================================
@@ -413,16 +450,16 @@ function renderApp(rawRows) {
   DATA = mapColumns(rawRows);
   if (DATA.length === 0) { afficherStatut('⚠️ Aucune donnée exploitable après import.', 'error'); return; }
   BOUNDS = computeBounds(DATA);
-
+ 
   populateFamilleSelect();
   populateMateriauRefSelect();
   setupEtudeSliders();
   if (!listenersBound) { bindListeners(); listenersBound = true; }
-
+ 
   updateTab1();
   updateTab2();
 }
-
+ 
 function populateFamilleSelect() {
   const sel = document.getElementById('famille-select');
   const current = sel.value;
@@ -430,7 +467,7 @@ function populateFamilleSelect() {
   sel.innerHTML = familles.map(f => `<option value="${f}">${f}</option>`).join('');
   if (familles.includes(current)) sel.value = current;
 }
-
+ 
 function populateMateriauRefSelect() {
   const sel = document.getElementById('materiau-ref-select');
   const famille = document.getElementById('famille-select').value || 'Toutes';
@@ -440,7 +477,7 @@ function populateMateriauRefSelect() {
   sel.innerHTML = noms.map(n => `<option value="${n}">${n}</option>`).join('');
   if (noms.includes(current)) sel.value = current;
 }
-
+ 
 // ============================================================
 // 6. LISTENERS
 // ============================================================
@@ -449,14 +486,19 @@ function bindListeners() {
     btn.addEventListener('click', () => {
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      document.getElementById('tab1').classList.toggle('hidden', btn.dataset.tab !== 'tab1');
-      document.getElementById('tab2').classList.toggle('hidden', btn.dataset.tab !== 'tab2');
+      
+      const isTab1 = btn.dataset.tab === 'tab1';
+      document.getElementById('tab1').classList.toggle('hidden', !isTab1);
+      document.getElementById('tab2').classList.toggle('hidden', isTab1);
+      
+      // Fix pour Plotly lors du changement d'onglet
+      window.dispatchEvent(new Event('resize'));
     });
   });
-
+ 
   document.getElementById('famille-select').addEventListener('change', () => { populateMateriauRefSelect(); updateTab1(); });
   document.getElementById('materiau-ref-select').addEventListener('change', updateTab1);
-
+ 
   document.querySelectorAll('input[name=objectif]').forEach(r => r.addEventListener('change', () => {
     document.getElementById('weights-panel').classList.toggle('hidden', r.value !== 'mixte' || !r.checked);
     updateTab1();
@@ -466,7 +508,7 @@ function bindListeners() {
     document.getElementById('poids-prix-val').textContent = 100 - e.target.value;
     updateTab1();
   });
-
+ 
   const bindTol = (chkId, sldId, valId) => {
     document.getElementById(chkId).addEventListener('change', e => { document.getElementById(sldId).disabled = !e.target.checked; updateTab1(); });
     document.getElementById(sldId).addEventListener('input', e => { document.getElementById(valId).textContent = e.target.value; updateTab1(); });
@@ -474,7 +516,7 @@ function bindListeners() {
   bindTol('keep-mecha', 'tol-mecha', 'tol-mecha-val');
   bindTol('keep-thermal', 'tol-thermal', 'tol-thermal-val');
   bindTol('keep-stiff', 'tol-stiff', 'tol-stiff-val');
-
+ 
   document.getElementById('simuler-piece').addEventListener('change', e => {
     document.getElementById('poids-piece-wrap').classList.toggle('hidden', !e.target.checked);
     updateTab1();
@@ -483,13 +525,20 @@ function bindListeners() {
   document.getElementById('axis-select-1').addEventListener('change', updateTab1);
   document.getElementById('axis-select-2').addEventListener('change', updateTab2);
   document.getElementById('indice-select').addEventListener('change', updateTab2);
-
+ 
   document.getElementById('btn-csv-1').addEventListener('click', exportCsvTab1);
   document.getElementById('btn-pdf-1').addEventListener('click', exportPdfTab1);
   document.getElementById('btn-csv-2').addEventListener('click', exportCsvTab2);
   document.getElementById('btn-pdf-2').addEventListener('click', exportPdfTab2);
-}
 
+  // Événements pour la Notice (Modal)
+  document.getElementById('btn-notice').addEventListener('click', () => document.getElementById('modal-notice').classList.remove('hidden'));
+  document.getElementById('close-notice').addEventListener('click', () => document.getElementById('modal-notice').classList.add('hidden'));
+  document.getElementById('modal-notice').addEventListener('click', (e) => {
+    if (e.target === document.getElementById('modal-notice')) document.getElementById('modal-notice').classList.add('hidden');
+  });
+}
+ 
 // ============================================================
 // 7. ONGLET 1 — SUBSTITUTION
 // ============================================================
@@ -497,31 +546,31 @@ function updateTab1() {
   const materiauRef = document.getElementById('materiau-ref-select').value;
   const rowRef = DATA.find(d => d.Nom === materiauRef);
   if (!rowRef) return;
-
+ 
   document.getElementById('ref-name-label').textContent = rowRef.Nom;
-
+ 
   const keepMecha = document.getElementById('keep-mecha').checked;
   const keepThermal = document.getElementById('keep-thermal').checked;
   const keepStiff = document.getElementById('keep-stiff').checked;
   const tolMecha = +document.getElementById('tol-mecha').value;
   const tolThermal = +document.getElementById('tol-thermal').value;
   const tolStiff = +document.getElementById('tol-stiff').value;
-
+ 
   const simulerPiece = document.getElementById('simuler-piece').checked;
   const poidsActuel = simulerPiece ? (+document.getElementById('poids-piece').value || 0.01) : 1.0;
-
+ 
   document.getElementById('m-score').textContent = `${rowRef.Score_Eco} /100`;
   document.getElementById('m-durete').textContent = `${fmt(rowRef.Durete_HRC, 0)} HRC`;
   document.getElementById('m-co2-label').textContent = `CO₂ (${simulerPiece ? 'total' : 'au kg'})`;
   document.getElementById('m-prix-label').textContent = `Prix (${simulerPiece ? 'total' : 'au kg'})`;
   document.getElementById('m-co2').textContent = `${fmt(rowRef.Empreinte_CO2 * poidsActuel)} kg`;
   document.getElementById('m-prix').textContent = `${fmt(rowRef.Prix_euro_kg * poidsActuel)} €`;
-
+ 
   let dfAlt = DATA.filter(d => d.Nom !== materiauRef);
   if (keepMecha) dfAlt = dfAlt.filter(d => d.Limite_Elastique_MPa >= rowRef.Limite_Elastique_MPa * (1 - tolMecha / 100));
   if (keepThermal) dfAlt = dfAlt.filter(d => d.Temp_Fusion_C >= rowRef.Temp_Fusion_C * (1 - tolThermal / 100));
   if (keepStiff) dfAlt = dfAlt.filter(d => d.Module_Young_GPa >= rowRef.Module_Young_GPa * (1 - tolStiff / 100));
-
+ 
   const objectif = document.querySelector('input[name=objectif]:checked').value;
   if (objectif === 'co2') dfAlt.sort((a, b) => a.Empreinte_CO2 - b.Empreinte_CO2);
   else if (objectif === 'prix') dfAlt.sort((a, b) => a.Prix_euro_kg - b.Prix_euro_kg);
@@ -536,19 +585,19 @@ function updateTab1() {
     dfAlt.forEach(d => { d._scoreMixte = (poidsCo2 / 100) * ((d.Empreinte_CO2 - minCo2) / spanCo2) + (poidsPrix / 100) * ((d.Prix_euro_kg - minPrix) / spanPrix); });
     dfAlt.sort((a, b) => a._scoreMixte - b._scoreMixte);
   }
-
+ 
   document.getElementById('tab1-empty').classList.toggle('hidden', dfAlt.length > 0);
   document.getElementById('tab1-results').classList.toggle('hidden', dfAlt.length === 0);
   if (dfAlt.length === 0) { tab1State = null; return; }
-
+ 
   const top3 = dfAlt.slice(0, 3);
   tab1State = { rowRef, top3, simulerPiece, poidsActuel };
-
+ 
   renderAltCards(rowRef, top3, simulerPiece, poidsActuel);
   renderRadar('radar1', rowRef, top3);
   renderAshby('ashby1', rowRef, top3, document.getElementById('axis-select-1').value);
 }
-
+ 
 function renderAltCards(rowRef, top3, simulerPiece, poidsActuel) {
   const wrap = document.getElementById('alt-cards');
   wrap.innerHTML = top3.map((alt, idx) => {
@@ -569,7 +618,7 @@ function renderAltCards(rowRef, top3, simulerPiece, poidsActuel) {
     </div>`;
   }).join('');
 }
-
+ 
 // ============================================================
 // 8. ONGLET 2 — ÉTUDE & CAHIER DES CHARGES
 // ============================================================
@@ -582,7 +631,7 @@ const ETUDE_SLIDERS = [
   { id: 'ee-co2', field: 'Empreinte_CO2', label: 'Empreinte CO₂ Max (kg/kg)', mode: 'max', dataMin: true, step: 0.1 },
   { id: 'ee-prix', field: 'Prix_euro_kg', label: 'Prix Max (€/kg)', mode: 'max', dataMin: true, step: 0.5 }
 ];
-
+ 
 function setupEtudeSliders() {
   const wrap = document.getElementById('etude-sliders');
   wrap.innerHTML = ETUDE_SLIDERS.map(s => {
@@ -603,7 +652,7 @@ function setupEtudeSliders() {
     });
   });
 }
-
+ 
 function updateTab2() {
   const criteres = {};
   let dfFiltre = DATA.slice();
@@ -612,31 +661,31 @@ function updateTab2() {
     criteres[s.label] = s.field === 'Durete_HRC' ? `${v} HRC` : v;
     dfFiltre = dfFiltre.filter(d => s.mode === 'min' ? d[s.field] >= v : d[s.field] <= v);
   });
-
+ 
   const indice = document.getElementById('indice-select').value;
   let indiceLabel = 'Aucun - Tri standard';
   if (indice === 'traction') { dfFiltre.sort((a, b) => b.Indice_Traction - a.Indice_Traction); indiceLabel = 'Traction pure (Max Re / ρ)'; }
   else if (indice === 'flexion') { dfFiltre.sort((a, b) => b.Indice_Flexion - a.Indice_Flexion); indiceLabel = 'Flexion pure (Max √Re / ρ)'; }
-
+ 
   document.getElementById('etude-count').textContent = `📊 ${dfFiltre.length} matériau(x) valide(s)`;
   document.getElementById('tab2-empty').classList.toggle('hidden', dfFiltre.length > 0);
   document.getElementById('tab2-results').classList.toggle('hidden', dfFiltre.length === 0);
   if (dfFiltre.length === 0) { tab2State = null; return; }
-
+ 
   tab2State = { dfFiltre, criteres, indiceLabel };
-
+ 
   const top3 = dfFiltre.slice(0, 3);
   renderRadarMulti('radar2', top3);
   renderAshbyEtude('ashby2', dfFiltre, top3, document.getElementById('axis-select-2').value);
   renderEtudeTable(dfFiltre.slice(0, 20));
 }
-
+ 
 function renderEtudeTable(rows) {
   const cols = ['Nom', 'Famille', 'Densite', 'Module_Young_GPa', 'Limite_Elastique_MPa', 'Durete_HRC', 'Temp_Fusion_C', 'Conductivite_Thermique_W_mK', 'Empreinte_CO2', 'Recyclabilite_pct', 'Prix_euro_kg', 'Score_Eco'].filter(c => c in (rows[0] || {}));
   document.getElementById('etude-table-head').innerHTML = '<tr>' + cols.map(c => `<th>${DISPLAY_MAP[c] || c}</th>`).join('') + '</tr>';
   document.getElementById('etude-table-body').innerHTML = rows.map(r => '<tr class="border-t border-slate-700">' + cols.map(c => `<td>${typeof r[c] === 'number' ? fmt(r[c], c === 'Empreinte_CO2' ? 2 : (Number.isInteger(r[c]) ? 0 : 1)) : r[c]}</td>`).join('') + '</tr>').join('');
 }
-
+ 
 // ============================================================
 // 9. GRAPHIQUES PLOTLY
 // ============================================================
@@ -644,7 +693,7 @@ const PLOTLY_DARK_LAYOUT_BASE = {
   paper_bgcolor: 'rgba(0,0,0,0)', plot_bgcolor: 'rgba(0,0,0,0)',
   font: { color: '#cbd5e1' }, margin: { t: 20, b: 40, l: 50, r: 20 }
 };
-
+ 
 function renderRadar(divId, rowRef, top3) {
   const traces = [{
     type: 'scatterpolar', r: [...radarProfile(rowRef, BOUNDS), radarProfile(rowRef, BOUNDS)[0]],
@@ -661,7 +710,7 @@ function renderRadar(divId, rowRef, top3) {
     showlegend: true, legend: { font: { color: '#cbd5e1' } }
   }, { responsive: true, displayModeBar: false });
 }
-
+ 
 function renderRadarMulti(divId, top3) {
   const traces = top3.map((alt, i) => {
     const vals = radarProfile(alt, BOUNDS);
@@ -673,7 +722,7 @@ function renderRadarMulti(divId, top3) {
     showlegend: true, legend: { font: { color: '#cbd5e1' } }
   }, { responsive: true, displayModeBar: false });
 }
-
+ 
 function renderAshby(divId, rowRef, top3, axisField) {
   const traces = [];
   const familles = [...new Set(DATA.map(d => d.Famille))];
@@ -704,7 +753,7 @@ function renderAshby(divId, rowRef, top3, axisField) {
     showlegend: true, legend: { font: { color: '#cbd5e1', size: 10 } }, hovermode: 'closest'
   }, { responsive: true, displayModeBar: false });
 }
-
+ 
 function renderAshbyEtude(divId, dfFiltre, top3, axisField) {
   const traces = [];
   const familles = [...new Set(DATA.map(d => d.Famille))];
@@ -730,7 +779,7 @@ function renderAshbyEtude(divId, dfFiltre, top3, axisField) {
     showlegend: true, legend: { font: { color: '#cbd5e1', size: 10 } }, hovermode: 'closest'
   }, { responsive: true, displayModeBar: false });
 }
-
+ 
 // ============================================================
 // 10. EXPORTS CSV
 // ============================================================
@@ -740,7 +789,7 @@ function toCsvRows(rows, cols) {
   rows.forEach(r => lines.push(cols.map(c => (typeof r[c] === 'number' ? fmt(r[c], 3).replace('.', ',') : r[c])).join(';')));
   return lines.join('\r\n');
 }
-
+ 
 function exportCsvTab1() {
   if (!tab1State) return;
   const { rowRef, top3 } = tab1State;
@@ -758,13 +807,13 @@ function exportCsvTab1() {
   });
   downloadBlob(lines.join('\r\n'), 'Top_3_Substitutions.csv', 'text/csv;charset=utf-8;');
 }
-
+ 
 function exportCsvTab2() {
   if (!tab2State) return;
   const cols = ['Nom', 'Famille', 'Densite', 'Module_Young_GPa', 'Limite_Elastique_MPa', 'Durete_HRC', 'Temp_Fusion_C', 'Conductivite_Thermique_W_mK', 'Empreinte_CO2', 'Recyclabilite_pct', 'Prix_euro_kg', 'Score_Eco'];
   downloadBlob(toCsvRows(tab2State.dfFiltre, cols), 'Cahier_des_Charges_MatSwap.csv', 'text/csv;charset=utf-8;');
 }
-
+ 
 // ============================================================
 // 11. EXPORTS PDF (jsPDF + images Plotly)
 // ============================================================
@@ -795,22 +844,22 @@ function pdfLine(doc, y, text, opts = {}) {
   doc.text('   ' + text, 10, y);
   return y + (opts.gap || 5);
 }
-
+ 
 async function getPlotlyImage(divId) {
   return Plotly.toImage(document.getElementById(divId), { format: 'png', width: 550, height: 420 });
 }
-
+ 
 async function exportPdfTab1() {
   if (!tab1State) return;
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
   const { rowRef, top3, simulerPiece, poidsActuel } = tab1State;
-
+ 
   let y = pdfHeader(doc, "RAPPORT D'AUDIT : SCENARIOS MATSWAP");
   y = pdfSectionTitle(doc, y, `1. MATÉRIAU DE RÉFÉRENCE : ${rowRef.Nom} (${rowRef.Famille})`);
   y = pdfLine(doc, y, `Mécanique : Re = ${fmt(rowRef.Limite_Elastique_MPa)} MPa | E = ${fmt(rowRef.Module_Young_GPa)} GPa | Dureté = ${fmt(rowRef.Durete_HRC, 0)} HRC`);
   y = pdfLine(doc, y, `Base 1 kg : CO2 = ${fmt(rowRef.Empreinte_CO2, 2)} kg/kg | Prix = ${fmt(rowRef.Prix_euro_kg)} €/kg | Densité = ${fmt(rowRef.Densite, 0)} kg/m³`, { gap: 8 });
-
+ 
   y = pdfSectionTitle(doc, y, '2. CLASSEMENT DES MEILLEURES ALTERNATIVES ÉLIGIBLES');
   top3.forEach((alt, idx) => {
     y = pdfLine(doc, y, `Scénario #${idx + 1} : ${alt.Nom} (${alt.Famille})`, { bold: true, color: [37, 99, 235], size: 10, gap: 5 });
@@ -824,7 +873,7 @@ async function exportPdfTab1() {
     y = pdfLine(doc, y, `Bilan carbone : ${diffCo2 > 0 ? 'Économie' : 'Surcoût'} de ${fmt(Math.abs(diffCo2))} kg CO2 / ${unite}`);
     y = pdfLine(doc, y, `Bilan financier : ${diffPrix > 0 ? 'Économie' : 'Surcoût'} de ${fmt(Math.abs(diffPrix))} € / ${unite}`, { gap: 8 });
   });
-
+ 
   y = pdfSectionTitle(doc, y, '3. CARTOGRAPHIE ET VISUALISATION DU CONTEXTE');
   try {
     const [imgRadar, imgAshby] = await Promise.all([getPlotlyImage('radar1'), getPlotlyImage('ashby1')]);
@@ -834,28 +883,28 @@ async function exportPdfTab1() {
     doc.setFont('helvetica', 'italic'); doc.setFontSize(9);
     doc.text('   (Graphiques indisponibles)', 10, y);
   }
-
+ 
   doc.save('Rapport_Substitution_MatSwap.pdf');
 }
-
+ 
 async function exportPdfTab2() {
   if (!tab2State) return;
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
   const { dfFiltre, criteres } = tab2State;
-
+ 
   let y = pdfHeader(doc, 'ÉTUDE DE FAISABILITÉ MATSWAP');
   y = pdfSectionTitle(doc, y, '1. RAPPEL DU CAHIER DES CHARGES');
   Object.entries(criteres).forEach(([k, v]) => { y = pdfLine(doc, y, `${k} : ${v}`); });
   y += 3;
-
+ 
   y = pdfSectionTitle(doc, y, '2. TOP 5 DES MEILLEURS CANDIDATS DÉTECTÉS');
   dfFiltre.slice(0, 5).forEach((row, i) => {
     y = pdfLine(doc, y, `#${i + 1} - ${row.Nom} (${row.Famille})`, { bold: true, color: [37, 99, 235], size: 10, gap: 5 });
     y = pdfLine(doc, y, `Mécanique : Re = ${fmt(row.Limite_Elastique_MPa)} MPa | E = ${fmt(row.Module_Young_GPa)} GPa | Dureté = ${fmt(row.Durete_HRC, 0)} HRC`, { size: 8 });
     y = pdfLine(doc, y, `RSE & coût : CO2 = ${fmt(row.Empreinte_CO2, 2)} kg | Prix = ${fmt(row.Prix_euro_kg)} € | Score = ${row.Score_Eco}/100`, { size: 8, gap: 7 });
   });
-
+ 
   y = pdfSectionTitle(doc, y, '3. CARTOGRAPHIE ET VISUALISATION');
   try {
     const [imgRadar, imgAshby] = await Promise.all([getPlotlyImage('radar2'), getPlotlyImage('ashby2')]);
@@ -865,7 +914,7 @@ async function exportPdfTab2() {
     doc.setFont('helvetica', 'italic'); doc.setFontSize(9);
     doc.text("   (Installez / vérifiez l'accès aux graphiques)", 10, y);
   }
-
+ 
   doc.save('Etude_Faisabilite.pdf');
 }
 </script>
